@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Your Polaroid</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #d9d9d9;
+            font-family: 'Great Vibes', cursive;
+            text-align: center;
+            padding: 5%;
+        }
+
+        .title {
+            font-size: 4rem;
+            color: #a86c3f;
+            margin-bottom: 20px;
+        }
+
+        #result-img {
+            max-width: 90%;
+            border-radius: 10px;
+            border: 5px solid white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.4);
+        }
+
+        .button {
+            display: inline-block;
+            margin: 15px 10px;
+            padding: 0.6em 1.2em;
+            font-size: 2rem;
+            background-color: #aa8e65;
+            color: white;
+            border-radius: 10px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="title">Here's Your Polaroid!</div>
+    <p>Please wait for it to Load</p>
+
+    <img id="result-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" alt="Waiting for image..." />
+    <br>
+
+    <a id="download-btn" class="button hidden" download="mehndi-polaroid.png">⬇️ Download</a>
+    <a id="whatsapp-btn" class="button hidden" target="_blank">💬 WhatsApp</a>
+    <button id="share-btn" class="button hidden">📤 Share</button>
+    <br>
+    <a href="/polaroid/en" class="button">📸 Try Again</a>
+
+    <script>
+        setTimeout(() => {
+            const imgEl = document.getElementById("result-img");
+            const downloadBtn = document.getElementById("download-btn");
+            const whatsappBtn = document.getElementById("whatsapp-btn");
+            const shareBtn = document.getElementById("share-btn");
+
+            // Load image
+            fetch("/polaroid/result/image")
+                .then(res => res.blob())
+                .then(blob => {
+                    const objectUrl = URL.createObjectURL(blob);
+                    imgEl.src = objectUrl;
+
+                    // Enable and set download link
+                    downloadBtn.href = objectUrl;
+                    downloadBtn.classList.remove("hidden");
+
+                    // WhatsApp Share
+                    const shareText = encodeURIComponent("Check out my Polaroid from Mehndi Memories!");
+                    const shareLink = encodeURIComponent(window.location.href);
+                    whatsappBtn.href = `https://wa.me/?text=${shareText}%20${shareLink}`;
+                    whatsappBtn.classList.remove("hidden");
+
+                    // Web Share API (if supported)
+                    if (navigator.canShare && navigator.canShare({ files: [blob] })) {
+                        shareBtn.onclick = () => {
+                            const file = new File([blob], 'mehndi-polaroid.png', { type: 'image/png' });
+                            navigator.share({
+                                title: 'Mehndi Memories',
+                                text: 'Check out my Polaroid!',
+                                files: [file]
+                            });
+                        };
+                        shareBtn.classList.remove("hidden");
+                    }
+                });
+        }, 15000); // 15-second loading delay
+    </script>
+</body>
+</html>

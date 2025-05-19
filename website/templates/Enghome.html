@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mehndi Memories</title>
+
+    <!-- Google Font: Great Vibes -->
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            background-color: #d9d9d9;
+            font-family: 'Great Vibes', cursive;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            background-color: white;
+            border-radius: 3%;
+            width: 70%;
+            height: auto;
+            padding: 5% 3%;
+            text-align: center;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border: 1px solid #000;
+        }
+
+        .logo {
+            width: 90%;
+        }
+
+        .hashtag {
+            font-size: 2rem;
+            margin-bottom: 2%;
+            color: #a86c3f;
+        }
+
+        .title {
+            font-size: 4.6rem;
+            font-weight: bold;
+            margin: 10% 0;
+            background: linear-gradient(to right, #ba8a5f, #a46327);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .button {
+            background-color: #aa8e65;
+            color: white;
+            padding: 0.8em 1.5em;
+            text-decoration: none;
+            border-radius: 10px;
+            font-size: 2.4rem;
+            display: inline-block;
+            min-width: 100px;
+            margin-bottom: 10px;
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .container {
+                width: 90%;
+                height: 95%;
+                padding: 8% 5%;
+            }
+
+            .logo {
+                max-width: 80%;
+            }
+
+            .hashtag {
+                font-size: 6vw;
+            }
+
+            .title {
+                font-size: 15vw;
+            }
+
+            .button {
+                font-size: 5vw;
+                padding: 1em 2em;
+                min-width: 120px;
+                margin-bottom: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="{{ url_for('static', filename='TLogo.png') }}" alt="Logo" class="logo">
+        <div class="title">
+            Ready to take back<br>
+            some great memories<br>
+            from this Mehndi?
+        </div>
+        <a href="/choose/en" class="button">Yes</a>
+    </div>
+</body>
+</html>
