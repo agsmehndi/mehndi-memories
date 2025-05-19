@@ -58,23 +58,21 @@
     </style>
 </head>
 <body>
-    <div class="title">Here's Your Polaroid!</div>
-    <h3>Please wait for the result to load</h3>
+    <div class="title">यह रही आपकी पोलरॉइड फोटो!</div>
+    <h3>कृपया फोटो लोड होने तक प्रतीक्षा करें</h3>
 
-    <img id="result-img" src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExMDRxdmg2cXVjdDF6N3cxY3ZuaGNmZTlrMjJzc21kY28zbXFjbDVmZiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/xTk9ZvMnbIiIew7IpW/giphy.gif" alt="Waiting for image..." />
+    <img id="result-img" src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExbXBlY2w3bzd3czRjeHRicnU1ZmFxaWdjMnB2cm9samo1OHgyMjNibSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/jAYUbVXgESSti/giphy.gif" alt="Waiting for image..." />
     <br>
 
     <a id="download-btn" class="button hidden" download="mehndi-polaroid.png">⬇️ Download</a>
-    <a id="whatsapp-btn" class="button hidden" target="_blank">💬 WhatsApp</a>
     <button id="share-btn" class="button hidden">📤 Share</button>
     <br>
-    <a href="/polaroid/en" class="button">📸 Try Again</a>
+    <a href="/polaroid/en" class="button">📸 </a>
 
     <script>
         setTimeout(() => {
             const imgEl = document.getElementById("result-img");
             const downloadBtn = document.getElementById("download-btn");
-            const whatsappBtn = document.getElementById("whatsapp-btn");
             const shareBtn = document.getElementById("share-btn");
 
             // Load image
@@ -88,26 +86,20 @@
                     downloadBtn.href = objectUrl;
                     downloadBtn.classList.remove("hidden");
 
-                    // WhatsApp Share
-                    const shareText = encodeURIComponent("Check out my Polaroid from Mehndi Memories!");
-                    const shareLink = encodeURIComponent(window.location.href);
-                    whatsappBtn.href = `https://wa.me/?text=${shareText}%20${shareLink}`;
-                    whatsappBtn.classList.remove("hidden");
-
                     // Web Share API (if supported)
                     if (navigator.canShare && navigator.canShare({ files: [blob] })) {
                         shareBtn.onclick = () => {
                             const file = new File([blob], 'mehndi-polaroid.png', { type: 'image/png' });
                             navigator.share({
-                                title: 'Mehndi Memories',
-                                text: 'Check out my Polaroid!',
+                                title: '#AnuGotSmeeten के मेहंदी यादें',
+                                text: '#AnuGotSmeeten के मेहंदी यादें',
                                 files: [file]
                             });
                         };
                         shareBtn.classList.remove("hidden");
                     }
                 });
-        }, 2000); // 15-second loading delay
+        }, 1000); // 2-second loading delay
     </script>
 </body>
 </html>

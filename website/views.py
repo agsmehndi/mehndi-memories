@@ -5,21 +5,21 @@ views = Blueprint('views', __name__)
 
 @views.route('/')
 def home():
-    return render_template("Start.html")
+    return render_template("/Home/Start.html")
 
 @views.route('/en')
 def englishhome():
-    return render_template("Enghome.html")
+    return render_template("/Home/Enghome.html")
 
 @views.route('/choose/en')
 def englishchoose():
-    return render_template("Engchoose.html")
+    return render_template("/Home/Engchoose.html")
 
 @views.route('/choose/hi')
 def hindichoose():
-    return render_template("Hichoose.html")
+    return render_template("/Home/Hichoose.html")
 
 @views.route('/hi')
 def hindihome():
-    return render_template("Hihome.html")
+    return render_template("/Home/Hihome.html")
 
