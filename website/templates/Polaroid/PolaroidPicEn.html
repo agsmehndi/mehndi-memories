@@ -118,13 +118,6 @@
         currentStream = await navigator.mediaDevices.getUserMedia(constraints);
         video.srcObject = currentStream;
 
-  // Flip video only for front camera
-  if (useFrontCamera) {
-    video.style.transform = "scaleX(-1)";
-  } else {
-    video.style.transform = "scaleX(1)";
-  }
-
       } catch (err) {
         alert("Camera access failed: " + err.message);
       }

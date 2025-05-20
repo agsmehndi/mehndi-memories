@@ -27,9 +27,6 @@ def handle_polaroid_upload_en():
     img_bytes = base64.b64decode(img_data)
     img = Image.open(BytesIO(img_bytes))
 
-    txt = request.form['text']
-    print(txt)
-
     # Process the image using your custom script
     result_img = process_polaroid_image(img)  # This returns a PIL.Image object
 
