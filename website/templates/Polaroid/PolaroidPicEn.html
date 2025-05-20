@@ -89,6 +89,7 @@
 
     <form id="uploadForm" method="POST" action="/upload/polaroid/en">
       <input type="hidden" name="image_data" id="image_data">
+      <input type="hidden" name="text" id="text">
     </form>
 
     <canvas id="canvas" width="1000" height="1000"></canvas>
@@ -99,6 +100,7 @@
     const canvas = document.getElementById('canvas');
     const captureBtn = document.getElementById('capture');
     const imageInput = document.getElementById('image_data');
+    const textInput = document.getElementById('text');
     const flipBtn = document.getElementById('flip');
 
     let useFrontCamera = true;
@@ -142,7 +144,7 @@
       const minSide = Math.min(vw, vh);
       const sx = (vw - minSide) / 2;
       const sy = (vh - minSide) / 2;
-       
+
       // Draw a centered square crop
       ctx.drawImage(video, sx, sy, minSide, minSide, 0, 0, canvas.width, canvas.height);
 
@@ -152,6 +154,14 @@
 
       // Submit the form with the image data
       document.getElementById('uploadForm').submit();
+
+      if (useFrontCamera) {
+      textInput = "front"
+      document.getElementById('text').submit();
+    } else {
+      textInput = "back"
+      document.getElementById('text').submit();
+    }
     };
 
     window.onload = () => {
