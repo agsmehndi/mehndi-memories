@@ -142,12 +142,7 @@
       const minSide = Math.min(vw, vh);
       const sx = (vw - minSide) / 2;
       const sy = (vh - minSide) / 2;
-
-      if (useFrontCamera) {
-        // Flip the canvas horizontally
-        ctx.translate(canvas.width, 0);
-        ctx.scale(-1, 1);}
-        
+       
       // Draw a centered square crop
       ctx.drawImage(video, sx, sy, minSide, minSide, 0, 0, canvas.width, canvas.height);
 
