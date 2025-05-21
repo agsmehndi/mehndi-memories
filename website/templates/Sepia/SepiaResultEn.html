@@ -70,36 +70,48 @@
     <a href="/sepia/en" class="button">📸 Try Again</a>
 
     <script>
-        setTimeout(() => {
-            const imgEl = document.getElementById("result-img");
-            const downloadBtn = document.getElementById("download-btn");
-            const shareBtn = document.getElementById("share-btn");
+    setTimeout(() => {
+        const imgEl = document.getElementById("result-img");
+        const downloadBtn = document.getElementById("download-btn");
+        const shareBtn = document.getElementById("share-btn");
 
-            // Load image
-            fetch("/sepia/result/image")
-                .then(res => res.blob())
-                .then(blob => {
-                    const objectUrl = URL.createObjectURL(blob);
-                    imgEl.src = objectUrl;
+        fetch("/polaroid/result/image")
+            .then(res => res.blob())
+            .then(blob => {
+                const objectUrl = URL.createObjectURL(blob);
+                imgEl.src = objectUrl;
 
-                    // Enable and set download link
-                    downloadBtn.href = objectUrl;
-                    downloadBtn.classList.remove("hidden");
+                // Enable and set download link
+                downloadBtn.href = objectUrl;
+                downloadBtn.classList.remove("hidden");
 
-                    // Web Share API (if supported)
-                    if (navigator.canShare && navigator.canShare({ files: [blob] })) {
-                        shareBtn.onclick = () => {
-                            const file = new File([blob], 'mehndi-sepia.png', { type: 'image/png' });
-                            navigator.share({
-                                title: 'Mehndi Memories',
-                                text: 'Check out my Sepia!',
-                                files: [file]
-                            });
-                        };
-                        shareBtn.classList.remove("hidden");
-                    }
+                // Auto open in new tab after user taps download
+                downloadBtn.addEventListener("click", () => {
+                    setTimeout(() => {
+                        const win = window.open(objectUrl, '_blank');
+                        if (win) {
+                            win.focus();
+                        } else {
+                            alert("Please allow popups to view the image automatically.");
+                        }
+                    }, 1500); // Delay to ensure download finishes
                 });
-        },1); // 15-second loading delay
-    </script>
+
+                // Share if supported
+                if (navigator.canShare && navigator.canShare({ files: [blob] })) {
+                    shareBtn.onclick = () => {
+                        const file = new File([blob], 'mehndi-polaroid.png', { type: 'image/png' });
+                        navigator.share({
+                            title: 'Mehndi Memories',
+                            text: 'Check out my Polaroid!',
+                            files: [file]
+                        });
+                    };
+                    shareBtn.classList.remove("hidden");
+                }
+            });
+    }, 1);
+</script>
+
 </body>
 </html>
