@@ -24,4 +24,17 @@ def process_sepia_image(image: Image.Image) -> Image.Image:
                 min(tb, 255)
             )
 
+            # Load and paste logo watermark
+            
+    logo_path = os.path.join(os.path.dirname(__file__), "static", "Logo.png")
+    if os.path.exists(logo_path):
+        logo = Image.open(logo_path).convert("RGBA")
+        logo = logo.resize((64, 64))
+
+        # Define bottom-right corner with padding
+        logo_x = width - 64 - 20
+        logo_y = height - 64 - 20
+
+        image.paste(logo, (logo_x, logo_y), mask=logo)
+
     return image

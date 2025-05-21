@@ -47,4 +47,17 @@ def process_VHS_image(image: Image.Image) -> Image.Image:
         glitch_strip = image.crop(box)
         glitch_strip = ImageChops.offset(glitch_strip, random.randint(-20, 20), 0)
         image.paste(glitch_strip, (0, glitch_y))
+
+            # Load and paste logo watermark
+    logo_path = os.path.join(os.path.dirname(__file__), "static", "Logo.png")
+    if os.path.exists(logo_path):
+        logo = Image.open(logo_path).convert("RGBA")
+        logo = logo.resize((64, 64))
+
+        # Define bottom-right corner with padding
+        logo_x = width - 64 - 20
+        logo_y = height - 64 - 20
+
+        image.paste(logo, (logo_x, logo_y), mask=logo)
+
     return image
