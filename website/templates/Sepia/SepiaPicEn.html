@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sepia Capture</title>
+ 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Delius&display=swap" rel="stylesheet">
+
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      width: 100%;
+      background-color: #d9d9d9;
+      font-family: 'Delius', cursive;
+    }
+
+    .container {
+      max-width: 90%;
+      margin: auto;
+      padding: 5% 3%;
+      background: white;
+      border-radius: 20px;
+      text-align: center;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .title {
+      font-size: 2.5rem;
+      color: #a86c3f;
+      margin-bottom: 1rem;
+    }
+
+    .video-wrapper {
+      position: relative;
+      width: 100%;
+      padding-top: 100%; /* 1:1 Aspect Ratio */
+      overflow: hidden;
+      border: 2px solid #aa8e65;
+      border-radius: 10px;
+    }
+
+    #video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+
+    .controls {
+      margin-top: 1.5rem;
+    }
+
+    .button {
+      font-size: 1.2rem;
+      padding: 0.7rem 1.5rem;
+      margin: 0.5rem;
+      background-color: #aa8e65;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    canvas {
+      display: none;
+    }
+
+    #loadingGif {
+      display: none;
+      width: 50px;
+      height: 50px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="title">Take Your Sepia Picture</div>
+
+    <div class="video-wrapper">
+      <video id="video" autoplay playsinline></video>
+    </div>
+
+    <div class="controls">
+      <button class="button" id="flip">🔄 Flip Camera</button>
+      <button class="button" id="capture">📸 Capture</button>
+      <img id="loadingGif" src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExbXBlY2w3bzd3czRjeHRicnU1ZmFxaWdjMnB2cm9samo1OHgyMjNibSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/jAYUbVXgESSti/giphy.gif" alt="Loading..." />
+    </div>
+
+    <form id="uploadForm" method="POST" action="/upload/sepia/en">
+      <input type="hidden" name="image_data" id="image_data">
+    </form>
+
+    <canvas id="canvas" width="1000" height="1000"></canvas>
+  </div>
+
+  <script>
+    const video = document.getElementById('video');
+    const canvas = document.getElementById('canvas');
+    const captureBtn = document.getElementById('capture');
+    const flipBtn = document.getElementById('flip');
+    const loadingGif = document.getElementById('loadingGif');
+    const imageInput = document.getElementById('image_data');
+
+    let useFrontCamera = false;
+    let currentStream;
+
+    async function startCamera() {
+      if (currentStream) {
+        currentStream.getTracks().forEach(track => track.stop());
+      }
+
+      try {
+        const constraints = {
+          video: {
+            facingMode: useFrontCamera ? "user" : "environment"
+          }
+        };
+        currentStream = await navigator.mediaDevices.getUserMedia(constraints);
+        video.srcObject = currentStream;
+
+      } catch (err) {
+        alert("Camera access failed: " + err.message);
+      }
+    }
+
+    flipBtn.onclick = () => {
+      useFrontCamera = !useFrontCamera;
+      startCamera();
+    };
+
+    captureBtn.onclick = () => {
+      // Hide buttons and show loading
+      captureBtn.style.display = 'none';
+      flipBtn.style.display = 'none';
+      loadingGif.style.display = 'inline';
+
+      const ctx = canvas.getContext('2d');
+      const vw = video.videoWidth;
+      const vh = video.videoHeight;
+      const minSide = Math.min(vw, vh);
+      const sx = (vw - minSide) / 2;
+      const sy = (vh - minSide) / 2; 
+
+      // Draw a centered square crop
+      ctx.drawImage(video, sx, sy, minSide, minSide, 0, 0, canvas.width, canvas.height);
+
+      // Get base64 image
+      const dataURL = canvas.toDataURL('image/png', 0.9);
+      imageInput.value = dataURL;
+
+      // Submit the form with the image data
+      document.getElementById('uploadForm').submit();
+    };
+
+    window.onload = () => {
+      startCamera();
+    };
+  </script>
+</body>
+</html>

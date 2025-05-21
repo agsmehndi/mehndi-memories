@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Your VHS Image</title>
+    
+    <!-- Google Font: Great Vibes -->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Delius&display=swap" rel="stylesheet">
+
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            background-color: #d9d9d9;
+            font-family: 'Delius', cursive;
+        }
+
+        body {
+            background-color: #d9d9d9;
+            font-family: 'Pacifico', cursive;
+            text-align: center;
+            padding: 5%;
+        }
+
+        .title {
+            font-size: 4rem;
+            color: #a86c3f;
+            margin-bottom: 20px;
+        }
+
+        #result-img {
+            max-width: 90%;
+            border-radius: 10px;
+            border: 5px solid white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.4);
+        }
+
+        .button {
+            display: inline-block;
+            margin: 15px 10px;
+            padding: 0.6em 1.2em;
+            font-size: 2rem;
+            background-color: #aa8e65;
+            color: white;
+            border-radius: 10px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="title">Here's Your VHS Image!</div>
+    <h3>Please wait for the result to load</h3>
+
+    <img id="result-img" src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExbXBlY2w3bzd3czRjeHRicnU1ZmFxaWdjMnB2cm9samo1OHgyMjNibSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/jAYUbVXgESSti/giphy.gif" alt="Waiting for image..." />
+    <br>
+
+    <a id="download-btn" class="button hidden" download="mehndi-VHS.png">⬇️ Download</a>
+    <button id="share-btn" class="button hidden">📤 Share</button>
+    <br>
+    <a href="/VHS/en" class="button">📸 Try Again</a>
+
+    <script>
+        setTimeout(() => {
+            const imgEl = document.getElementById("result-img");
+            const downloadBtn = document.getElementById("download-btn");
+            const shareBtn = document.getElementById("share-btn");
+
+            // Load image
+            fetch("/VHS/result/image")
+                .then(res => res.blob())
+                .then(blob => {
+                    const objectUrl = URL.createObjectURL(blob);
+                    imgEl.src = objectUrl;
+
+                    // Enable and set download link
+                    downloadBtn.href = objectUrl;
+                    downloadBtn.classList.remove("hidden");
+
+                    // Web Share API (if supported)
+                    if (navigator.canShare && navigator.canShare({ files: [blob] })) {
+                        shareBtn.onclick = () => {
+                            const file = new File([blob], 'mehndi-VHS.png', { type: 'image/png' });
+                            navigator.share({
+                                title: 'Mehndi Memories',
+                                text: 'Check out my VHS Image!',
+                                files: [file]
+                            });
+                        };
+                        shareBtn.classList.remove("hidden");
+                    }
+                });
+        },1); // 15-second loading delay
+    </script>
+</body>
+</html>

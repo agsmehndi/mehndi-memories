@@ -7,10 +7,12 @@ def create_app():
 
     from .views import views
     from .polaroid import polaroid
-    from .vfb import vfb
+    from .sepia import sepia
+    from .VHS import VHS
 
     app.register_blueprint(views, url_prefix='/')
     app.register_blueprint(polaroid, url_prefix='/')
-    app.register_blueprint(vfb, url_prefix='/')
+    app.register_blueprint(sepia, url_prefix='/')
+    app.register_blueprint(VHS, url_prefix='/')
 
     return app
