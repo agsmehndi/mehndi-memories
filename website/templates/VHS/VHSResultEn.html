@@ -75,7 +75,7 @@
         const downloadBtn = document.getElementById("download-btn");
         const shareBtn = document.getElementById("share-btn");
 
-        fetch("/polaroid/result/image")
+        fetch("/VHS/result/image")
             .then(res => res.blob())
             .then(blob => {
                 const objectUrl = URL.createObjectURL(blob);
@@ -100,7 +100,7 @@
                 // Share if supported
                 if (navigator.canShare && navigator.canShare({ files: [blob] })) {
                     shareBtn.onclick = () => {
-                        const file = new File([blob], 'mehndi-polaroid.png', { type: 'image/png' });
+                        const file = new File([blob], 'mehndi-VHS.png', { type: 'image/png' });
                         navigator.share({
                             title: 'Mehndi Memories',
                             text: 'Check out my Polaroid!',

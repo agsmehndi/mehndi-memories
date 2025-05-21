@@ -64,10 +64,10 @@
     <img id="result-img" src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExbXBlY2w3bzd3czRjeHRicnU1ZmFxaWdjMnB2cm9samo1OHgyMjNibSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/jAYUbVXgESSti/giphy.gif" alt="Waiting for image..." />
     <br>
 
-    <a id="download-btn" class="button hidden" download="mehndi-polaroid.png">⬇️ Download</a>
+    <a id="download-btn" class="button hidden" download="mehndi-VHS.png">⬇️ Download</a>
     <button id="share-btn" class="button hidden">📤 Share</button>
     <br>
-    <a href="/polaroid/en" class="button">📸 </a>
+    <a href="/VHS/en" class="button">📸 </a>
 
     <script>
     setTimeout(() => {
@@ -75,7 +75,7 @@
         const downloadBtn = document.getElementById("download-btn");
         const shareBtn = document.getElementById("share-btn");
 
-        fetch("/polaroid/result/image")
+        fetch("/VHS/result/image")
             .then(res => res.blob())
             .then(blob => {
                 const objectUrl = URL.createObjectURL(blob);
@@ -100,7 +100,7 @@
                 // Share if supported
                 if (navigator.canShare && navigator.canShare({ files: [blob] })) {
                     shareBtn.onclick = () => {
-                        const file = new File([blob], 'mehndi-polaroid.png', { type: 'image/png' });
+                        const file = new File([blob], 'mehndi-VHS.png', { type: 'image/png' });
                         navigator.share({
                             title: 'Mehndi Memories',
                             text: 'Check out my Polaroid!',
